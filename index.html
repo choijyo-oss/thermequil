@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>송례중학교 1학년 과학 - 열평형 탐구 및 보고서</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --hot: #dc2626;
+      --cold: #0284c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --radius: 10px;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px 16px;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    /* 헤더 및 내비게이션 */
+    header {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 16px;
+    }
+    .title-area h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .title-area p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .tab-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    
+    /* 공통 카드 스타일 */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 학생 입력 폼 */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--primary);
+    }
+
+    /* 대형 파일 업로드 박스 */
+    .upload-box {
+      border: 2px dashed #94a3b8;
+      border-radius: var(--radius);
+      padding: 40px 20px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+    .upload-box:hover, .upload-box.dragover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .upload-box input {
+      display: none;
+    }
+    .upload-icon {
+      font-size: 36px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .upload-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .upload-desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .file-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      background: #dbeafe;
+      color: #1e40af;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* 지표 요약 카드 그리드 */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .metric-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .metric-value {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .val-hot { color: var(--hot); }
+    .val-cold { color: var(--cold); }
+    .val-eq { color: #16a34a; }
+    .val-mid { color: #9333ea; }
+
+    /* 차트 영역 */
+    .chart-container {
+      position: relative;
+      height: 320px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    /* 질문 및 답변 영역 */
+    .qa-group {
+      margin-bottom: 20px;
+    }
+    .qa-question {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .qa-group textarea {
+      width: 100%;
+      min-height: 75px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      resize: vertical;
+      outline: none;
+    }
+    .qa-group textarea:focus {
+      border-color: var(--primary);
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    /* 교사 대시보드 전용 스타일 */
+    .teacher-filter-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .teacher-filter-bar select {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .table-container {
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tag-diff-plus { color: #dc2626; font-weight: 600; }
+    .tag-diff-minus { color: #0284c7; font-weight: 600; }
+    .ans-box {
+      background: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #334155;
+      max-width: 260px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header>
+      <div class="title-area">
+        <h1>송례중학교 1학년 과학 탐구 실험</h1>
+        <p>열평형 관찰 및 보고서 작성 시스템 (온도 센서 분석)</p>
+      </div>
+      <div class="nav-tabs">
+        <button class="tab-btn active" id="tabStudentBtn" onclick="switchView('student')">학생 실험실</button>
+        <button class="tab-btn" id="tabTeacherBtn" onclick="switchView('teacher')">교사용 수합 대시보드</button>
+      </div>
+    </header>
+
+    <!-- [1] 학생 뷰 -->
+    <div id="studentView">
+      <div class="card">
+        <div class="card-title">1. 조별 기본 정보 입력</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="classNum">반 번호 (숫자만 입력)</label>
+            <input type="number" id="classNum" min="1" max="15" placeholder="예: 3">
+          </div>
+          <div class="form-group">
+            <label for="groupNum">조 번호 (숫자만 입력)</label>
+            <input type="number" id="groupNum" min="1" max="15" placeholder="예: 2">
+          </div>
+        </div>
+
+        <div class="card-title" style="margin-top: 24px;">2. 사이언스큐브 CSV 파일 업로드</div>
+        <div class="upload-box" id="dropZone" onclick="document.getElementById('csvInput').click()">
+          <input type="file" id="csvInput" accept=".csv" onchange="handleFileSelect(event)">
+          <div class="upload-icon">📂</div>
+          <div class="upload-text">클릭하거나 CSV 파일을 이곳으로 끌어다 놓으세요</div>
+          <div class="upload-desc">https://on.sciencecube.com/ 에서 다운로드한 열평형 측정 데이터 (B열: 시간, C/D열: 센서)</div>
+          <div id="fileInfo" class="file-badge" style="display: none;"></div>
+        </div>
+
+        <!-- 데이터 지표 요약 -->
+        <div id="metricsArea" style="display: none;">
+          <div class="card-title">3. 측정 데이터 요약</div>
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-label">뜨거운 물 처음 온도</div>
+              <div class="metric-value val-hot" id="mHotInit">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">찬 물 처음 온도</div>
+              <div class="metric-value val-cold" id="mColdInit">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">최종 열평형 온도</div>
+              <div class="metric-value val-eq" id="mEqTemp">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">계산한 중간값</div>
+              <div class="metric-value val-mid" id="mMidTemp">-</div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="studentChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 질문 답변 카드 -->
+      <div class="card">
+        <div class="card-title">4. 탐구 질문 및 보고서 작성</div>
+        
+        <div class="qa-group">
+          <div class="qa-question">1. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도는 각각 어떻게 변하는가?</div>
+          <textarea id="q1" placeholder="온도 그래프의 변화 추세를 구체적으로 서술하세요."></textarea>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-question">2. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도가 변하는 까닭을 설명해 보자.</div>
+          <textarea id="q2" placeholder="열의 이동 방향과 관련된 까닭을 서술하세요."></textarea>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-question">3. 충분한 시간이 지난 뒤 찬물과 뜨거운 물에서의 물 입자의 운동을 설명해 보자.</div>
+          <textarea id="q3" placeholder="온도와 물 입자의 활발한 정도를 연결지어 서술하세요."></textarea>
+        </div>
+
+        <div class="qa-group">
+          <div class="qa-question">4. 두 물의 온도가 같아지는 온도는 두 값의 계산한 중간값과 어떤 차이가 있는지, 그 이유를 설명해 보자.</div>
+          <textarea id="q4" placeholder="최종 온도와 계산한 중간값을 비교하고, 차이가 나는 이유(물의 양, 열 손실 등)를 적으세요."></textarea>
+        </div>
+
+        <button class="btn-submit" onclick="submitReport()">보고서 제출하기</button>
+      </div>
+    </div>
+
+    <!-- [2] 교사 뷰 -->
+    <div id="teacherView" style="display: none;">
+      <div class="card">
+        <div class="card-title">학급별 제출 현황 및 데이터 수합</div>
+        <div class="teacher-filter-bar">
+          <label for="filterClass" style="font-weight: 600; font-size: 14px;">학급 선택:</label>
+          <select id="filterClass" onchange="renderTeacherDashboard()">
+            <option value="all">전체 학급 보기</option>
+          </select>
+          <button onclick="clearStorageData()" style="margin-left: auto; padding: 6px 12px; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-size: 12px; cursor: pointer;">
+            데이터 초기화
+          </button>
+        </div>
+
+        <!-- 비교 차트 -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">조별 열평형 온도 vs 계산한 중간값</div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="tBarChart"></canvas>
+            </div>
+          </div>
+          <div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">조별 열평형 곡선 비교</div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="tLineChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 수합 테이블 -->
+        <div class="card-title" style="margin-top: 20px;">조별 제출 보고서 및 답변 비교</div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>반/조</th>
+                <th>뜨거운 물 처음</th>
+                <th>찬 물 처음</th>
+                <th>열평형 온도</th>
+                <th>계산한 중간값</th>
+                <th>차이 (열평형 - 중간값)</th>
+                <th>질문 4번 (중간값 차이 이유 서술)</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody">
+              <tr><td colspan="7" style="text-align: center; color: var(--muted); padding: 24px;">제출된 데이터가 없습니다.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 전역 상태
+    let currentStudentData = null;
+    let studentChartInstance = null;
+    let tBarChartInstance = null;
+    let tLineChartInstance = null;
+
+    // 드래그 앤 드롭 이벤트 설정
+    const dropZone = document.getElementById('dropZone');
+    ['dragenter', 'dragover'].forEach(name => {
+      dropZone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(name => {
+      dropZone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+      });
+    });
+    dropZone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files.length) {
+        parseCSV(e.dataTransfer.files[0]);
+      }
+    });
+
+    function handleFileSelect(e) {
+      if (e.target.files.length) {
+        parseCSV(e.target.files[0]);
+      }
+    }
+
+    // 사이언스큐브 CSV 파싱
+    function parseCSV(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const lines = text.split(/\r\n|\n/);
+        const labels = [];
+        const hotData = [];
+        const coldData = [];
+
+        for (let i = 0; i < lines.length; i++) {
+          const row = lines[i].split(',').map(s => s.trim());
+          if (row.length < 4) continue;
+          
+          // B열: 시간(인덱스 1), C열: 센서1(인덱스 2), D열: 센서2(인덱스 3)
+          const time = parseFloat(row[1]);
+          const val1 = parseFloat(row[2]);
+          const val2 = parseFloat(row[3]);
+
+          if (!isNaN(time) && !isNaN(val1) && !isNaN(val2)) {
+            labels.push(time);
+            hotData.push(val1);
+            coldData.push(val2);
+          }
+        }
+
+        if (labels.length === 0) {
+          alert("사이언스큐브 CSV 형식에 맞는 유효한 데이터가 없습니다. (B열: 시간, C열: 온도1, D열: 온도2 확인)");
+          return;
+        }
+
+        // 초기/최종 지표 산출
+        const hotInit = hotData[0];
+        const coldInit = coldData[0];
+        // 마지막 5개 평균을 최종 온도로 계산
+        const lastSlice = 5;
+        const lastHot = hotData.slice(-lastSlice);
+        const lastCold = coldData.slice(-lastSlice);
+        const eqTemp = Number(((lastHot.reduce((a,b)=>a+b,0) + lastCold.reduce((a,b)=>a+b,0)) / (lastSlice * 2)).toFixed(1));
+        const midTemp = Number(((hotInit + coldInit) / 2).toFixed(1));
+
+        currentStudentData = {
+          fileName: file.name,
+          labels,
+          hotData,
+          coldData,
+          hotInit,
+          coldInit,
+          eqTemp,
+          midTemp
+        };
+
+        // UI 갱신
+        document.getElementById('fileInfo').innerText = `선택된 파일: ${file.name} (${labels.length}개 지점 측정)`;
+        document.getElementById('fileInfo').style.display = 'inline-block';
+        document.getElementById('metricsArea').style.display = 'block';
+
+        document.getElementById('mHotInit').innerText = `${hotInit}℃`;
+        document.getElementById('mColdInit').innerText = `${coldInit}℃`;
+        document.getElementById('mEqTemp').innerText = `${eqTemp}℃`;
+        document.getElementById('mMidTemp').innerText = `${midTemp}℃`;
+
+        renderStudentChart(labels, hotData, coldData);
+      };
+      reader.readAsText(file);
+    }
+
+    // 학생 개별 차트 렌더링
+    function renderStudentChart(labels, hot, cold) {
+      const ctx = document.getElementById('studentChart').getContext('2d');
+      if (studentChartInstance) studentChartInstance.destroy();
+
+      studentChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: '뜨거운 물 (센서 1)',
+              data: hot,
+              borderColor: '#dc2626',
+              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '찬 물 (센서 2)',
+              data: cold,
+              borderColor: '#0284c7',
+              backgroundColor: 'rgba(2, 132, 199, 0.1)',
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          scales: {
+            x: { title: { display: true, text: '시간 (초)' } },
+            y: { title: { display: true, text: '온도 (℃)' } }
+          }
+        }
+      });
+    }
+
+    // 학생 보고서 제출 및 로컬 저장
+    function submitReport() {
+      const classNum = document.getElementById('classNum').value.trim();
+      const groupNum = document.getElementById('groupNum').value.trim();
+
+      if (!classNum || !groupNum) {
+        alert("반 번호와 조 번호를 숫자로 모두 입력해 주세요.");
+        return;
+      }
+      if (!currentStudentData) {
+        alert("먼저 사이언스큐브 측정 CSV 파일을 업로드해 주세요.");
+        return;
+      }
+
+      const q1 = document.getElementById('q1').value.trim();
+      const q2 = document.getElementById('q2').value.trim();
+      const q3 = document.getElementById('q3').value.trim();
+      const q4 = document.getElementById('q4').value.trim();
+
+      if (!q1 || !q2 || !q3 || !q4) {
+        if (!confirm("아직 작성하지 않은 질문이 있습니다. 그래도 제출하시겠습니까?")) {
+          return;
+        }
+      }
+
+      const newRecord = {
+        id: `${classNum}-${groupNum}`,
+        classNum: parseInt(classNum, 10),
+        groupNum: parseInt(groupNum, 10),
+        hotInit: currentStudentData.hotInit,
+        coldInit: currentStudentData.coldInit,
+        eqTemp: currentStudentData.eqTemp,
+        midTemp: currentStudentData.midTemp,
+        labels: currentStudentData.labels,
+        hotData: currentStudentData.hotData,
+        coldData: currentStudentData.coldData,
+        answers: { q1, q2, q3, q4 },
+        submittedAt: new Date().toLocaleTimeString()
+      };
+
+      const existing = JSON.parse(localStorage.getItem('songrye_thermal_data') || '[]');
+      const filtered = existing.filter(item => item.id !== newRecord.id);
+      filtered.push(newRecord);
+      localStorage.setItem('songrye_thermal_data', JSON.stringify(filtered));
+
+      alert(`${classNum}반 ${groupNum}조 보고서가 정상적으로 제출되었습니다! 교사용 대시보드에서 수합 상태를 확인할 수 있습니다.`);
+    }
+
+    // 뷰 전환 (학생 / 교사)
+    function switchView(view) {
+      if (view === 'student') {
+        document.getElementById('studentView').style.display = 'block';
+        document.getElementById('teacherView').style.display = 'none';
+        document.getElementById('tabStudentBtn').classList.add('active');
+        document.getElementById('tabTeacherBtn').classList.remove('active');
+      } else {
+        document.getElementById('studentView').style.display = 'none';
+        document.getElementById('teacherView').style.display = 'block';
+        document.getElementById('tabStudentBtn').classList.remove('active');
+        document.getElementById('tabTeacherBtn').classList.add('active');
+        populateClassFilter();
+        renderTeacherDashboard();
+      }
+    }
+
+    // 학급 셀렉트박스 목록 갱신
+    function populateClassFilter() {
+      const data = JSON.parse(localStorage.getItem('songrye_thermal_data') || '[]');
+      const select = document.getElementById('filterClass');
+      const currentVal = select.value;
+      const classSet = new Set(data.map(d => d.classNum));
+      const sortedClasses = Array.from(classSet).sort((a,b)=>a-b);
+
+      select.innerHTML = '<option value="all">전체 학급 보기</option>';
+      sortedClasses.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = `${c}반`;
+        select.appendChild(opt);
+      });
+      if (sortedClasses.includes(parseInt(currentVal, 10))) {
+        select.value = currentVal;
+      }
+    }
+
+    // 교사용 대시보드 렌더링
+    function renderTeacherDashboard() {
+      const allData = JSON.parse(localStorage.getItem('songrye_thermal_data') || '[]');
+      const filterVal = document.getElementById('filterClass').value;
+      
+      const filteredData = filterVal === 'all' 
+        ? allData 
+        : allData.filter(d => d.classNum === parseInt(filterVal, 10));
+
+      filteredData.sort((a,b) => (a.classNum - b.classNum) || (a.groupNum - b.groupNum));
+
+      // 1. 테이블 렌더링
+      const tbody = document.getElementById('teacherTableBody');
+      if (filteredData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--muted); padding: 24px;">제출된 데이터가 없습니다.</td></tr>';
+      } else {
+        tbody.innerHTML = filteredData.map(d => {
+          const diff = Number((d.eqTemp - d.midTemp).toFixed(1));
+          const diffClass = diff > 0 ? 'tag-diff-plus' : (diff < 0 ? 'tag-diff-minus' : '');
+          const diffSign = diff > 0 ? `+${diff}` : `${diff}`;
+          return `
+            <tr>
+              <td><strong>${d.classNum}반 ${d.groupNum}조</strong></td>
+              <td>${d.hotInit}℃</td>
+              <td>${d.coldInit}℃</td>
+              <td style="color: #16a34a; font-weight: 700;">${d.eqTemp}℃</td>
+              <td style="color: #9333ea; font-weight: 600;">${d.midTemp}℃</td>
+              <td class="${diffClass}">${diffSign}℃</td>
+              <td><div class="ans-box">${d.answers.q4 || '(미작성)'}</div></td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 2. 바 차트 (열평형 온도 vs 계산한 중간값)
+      const barLabels = filteredData.map(d => `${d.classNum}반 ${d.groupNum}조`);
+      const eqTemps = filteredData.map(d => d.eqTemp);
+      const midTemps = filteredData.map(d => d.midTemp);
+
+      const ctxBar = document.getElementById('tBarChart').getContext('2d');
+      if (tBarChartInstance) tBarChartInstance.destroy();
+      tBarChartInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: barLabels,
+          datasets: [
+            {
+              label: '최종 열평형 온도 (℃)',
+              data: eqTemps,
+              backgroundColor: '#16a34a'
+            },
+            {
+              label: '계산한 중간값 (℃)',
+              data: midTemps,
+              backgroundColor: '#a855f7'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { title: { display: true, text: '온도 (℃)' } }
+          }
+        }
+      });
+
+      // 3. 중첩 선 그래프 (조별 열평형 곡선 비교)
+      const ctxLine = document.getElementById('tLineChart').getContext('2d');
+      if (tLineChartInstance) tLineChartInstance.destroy();
+
+      const palette = ['#2563eb', '#dc2626', '#059669', '#d97706', '#7c3aed', '#db2777'];
+      const datasets = [];
+
+      filteredData.forEach((d, idx) => {
+        const color = palette[idx % palette.length];
+        // 고온 곡선 (실선)
+        datasets.push({
+          label: `${d.classNum}반 ${d.groupNum}조(고온)`,
+          data: d.hotData,
+          borderColor: color,
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.1
+        });
+        // 저온 곡선 (점선)
+        datasets.push({
+          label: `${d.classNum}반 ${d.groupNum}조(저온)`,
+          data: d.coldData,
+          borderColor: color,
+          borderDash: [4, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.1
+        });
+      });
+
+      // 가장 긴 라벨 축 선택
+      let maxLabels = [];
+      filteredData.forEach(d => {
+        if (d.labels.length > maxLabels.length) maxLabels = d.labels;
+      });
+
+      tLineChartInstance = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+          labels: maxLabels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { title: { display: true, text: '시간 (초)' } },
+            y: { title: { display: true, text: '온도 (℃)' } }
+          }
+        }
+      });
+    }
+
+    // 데이터 전체 삭제 함수
+    function clearStorageData() {
+      if (confirm("수합된 전체 보고서 데이터를 삭제하시겠습니까? (되돌릴 수 없습니다)")) {
+        localStorage.removeItem('songrye_thermal_data');
+        populateClassFilter();
+        renderTeacherDashboard();
+      }
+    }
+  </script>
+</body>
+</html>
