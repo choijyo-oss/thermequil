@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>송례중학교 1학년 과학 - 열평형 실시간 탐구 및 보고서</title>
-  <!-- Chart.js CDN -->
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
   <style>
     :root {
       --primary: #2563eb;
@@ -19,23 +20,32 @@
       --border: #cbd5e1;
       --radius: 10px;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Noto Sans KR",
+        sans-serif;
     }
+
     body {
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
       padding: 24px 16px;
     }
+
     .container {
-      max-width: 980px;
+      max-width: 1100px;
       margin: 0 auto;
     }
-    /* 헤더 및 내비게이션 */
+
     header {
       margin-bottom: 24px;
       display: flex;
@@ -46,20 +56,24 @@
       border-bottom: 2px solid var(--border);
       padding-bottom: 16px;
     }
+
     .title-area h1 {
       font-size: 22px;
       font-weight: 700;
       color: var(--text);
     }
+
     .title-area p {
       font-size: 13px;
       color: var(--muted);
       margin-top: 4px;
     }
+
     .nav-tabs {
       display: flex;
       gap: 8px;
     }
+
     .tab-btn {
       padding: 8px 18px;
       border-radius: var(--radius);
@@ -71,21 +85,27 @@
       color: var(--muted);
       transition: all 0.2s;
     }
+
     .tab-btn.active {
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
     }
-    
-    /* 공통 카드 스타일 */
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
     .card {
       background: var(--card-bg);
       border-radius: var(--radius);
       border: 1px solid var(--border);
       padding: 24px;
       margin-bottom: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
+
     .card-title {
       font-size: 16px;
       font-weight: 700;
@@ -96,7 +116,6 @@
       gap: 8px;
     }
 
-    /* 실시간 상태 배지 */
     .status-badge {
       display: inline-flex;
       align-items: center;
@@ -108,6 +127,7 @@
       color: #065f46;
       font-weight: 600;
     }
+
     .status-dot {
       width: 8px;
       height: 8px;
@@ -115,21 +135,30 @@
       background: #10b981;
       animation: pulse 2s infinite;
     }
+
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      0%, 100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
     }
 
-    /* 학생 입력 폼 */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-bottom: 20px;
     }
+
     @media (max-width: 600px) {
-      .form-grid { grid-template-columns: 1fr; }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
     }
+
     .form-group label {
       display: block;
       font-size: 13px;
@@ -137,19 +166,23 @@
       margin-bottom: 6px;
       color: var(--text);
     }
-    .form-group input, .form-group select {
+
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border);
       border-radius: 6px;
       font-size: 14px;
       outline: none;
+      background: #fff;
     }
-    .form-group input:focus, .form-group select:focus {
+
+    .form-group input:focus,
+    .form-group select:focus {
       border-color: var(--primary);
     }
 
-    /* 대형 파일 업로드 박스 */
     .upload-box {
       border: 2px dashed #94a3b8;
       border-radius: var(--radius);
@@ -160,28 +193,35 @@
       transition: all 0.2s;
       margin-bottom: 20px;
     }
-    .upload-box:hover, .upload-box.dragover {
+
+    .upload-box:hover,
+    .upload-box.dragover {
       border-color: var(--primary);
       background: #eff6ff;
     }
+
     .upload-box input {
       display: none;
     }
+
     .upload-icon {
       font-size: 36px;
       color: var(--primary);
       margin-bottom: 8px;
     }
+
     .upload-text {
       font-size: 16px;
       font-weight: 600;
       color: var(--text);
       margin-bottom: 6px;
     }
+
     .upload-desc {
       font-size: 13px;
       color: var(--muted);
     }
+
     .file-badge {
       display: inline-block;
       margin-top: 12px;
@@ -193,13 +233,36 @@
       font-weight: 600;
     }
 
-    /* 지표 요약 카드 그리드 */
+    .sensor-order-box {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #93c5fd;
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .sensor-warning {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #fbbf24;
+      background: #fffbeb;
+      color: #92400e;
+      font-size: 13px;
+    }
+
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 12px;
       margin-bottom: 20px;
     }
+
     .metric-card {
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -207,21 +270,34 @@
       padding: 12px;
       text-align: center;
     }
+
     .metric-label {
       font-size: 12px;
       color: var(--muted);
       margin-bottom: 4px;
     }
+
     .metric-value {
       font-size: 20px;
       font-weight: 700;
     }
-    .val-hot { color: var(--hot); }
-    .val-cold { color: var(--cold); }
-    .val-eq { color: #16a34a; }
-    .val-mid { color: #9333ea; }
 
-    /* 차트 영역 */
+    .val-hot {
+      color: var(--hot);
+    }
+
+    .val-cold {
+      color: var(--cold);
+    }
+
+    .val-eq {
+      color: #16a34a;
+    }
+
+    .val-mid {
+      color: #9333ea;
+    }
+
     .chart-container {
       position: relative;
       height: 320px;
@@ -229,10 +305,10 @@
       margin-bottom: 16px;
     }
 
-    /* 질문 및 답변 영역 */
     .qa-group {
       margin-bottom: 20px;
     }
+
     .qa-question {
       font-size: 14px;
       font-weight: 700;
@@ -240,6 +316,7 @@
       color: var(--text);
       line-height: 1.4;
     }
+
     .qa-group textarea {
       width: 100%;
       min-height: 75px;
@@ -250,9 +327,11 @@
       resize: vertical;
       outline: none;
     }
+
     .qa-group textarea:focus {
       border-color: var(--primary);
     }
+
     .btn-submit {
       width: 100%;
       padding: 14px;
@@ -265,50 +344,159 @@
       cursor: pointer;
       transition: background 0.2s;
     }
+
     .btn-submit:hover {
       background: var(--primary-hover);
     }
+
     .btn-submit:disabled {
       background: #94a3b8;
       cursor: not-allowed;
     }
 
-    /* 교사 대시보드 전용 스타일 */
     .teacher-filter-bar {
       display: flex;
       gap: 12px;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
+
+    .teacher-filter-bar label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
     .teacher-filter-bar select {
       padding: 8px 12px;
       border-radius: 6px;
       border: 1px solid var(--border);
       font-size: 14px;
       font-weight: 600;
+      background: #fff;
     }
+
+    .reset-btn {
+      padding: 8px 12px;
+      background: #fff;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .reset-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .danger-btn {
+      margin-left: auto;
+      padding: 8px 12px;
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .dashboard-summary {
+      margin: 10px 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .report-action-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0 16px;
+    }
+
+    .report-btn {
+      padding: 9px 14px;
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .report-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .report-btn.secondary {
+      background: #fff;
+      color: var(--primary);
+    }
+
+    .teacher-chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 760px) {
+      .teacher-chart-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .teacher-chart-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .teacher-chart-box {
+      height: 280px;
+      position: relative;
+    }
+
     .table-container {
       overflow-x: auto;
       margin-top: 16px;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
       font-size: 13px;
+      min-width: 980px;
     }
-    th, td {
+
+    th,
+    td {
       padding: 12px 14px;
       border-bottom: 1px solid var(--border);
+      vertical-align: top;
     }
+
     th {
       background: #f1f5f9;
       font-weight: 600;
       color: var(--text);
+      white-space: nowrap;
     }
-    .tag-diff-plus { color: #dc2626; font-weight: 600; }
-    .tag-diff-minus { color: #0284c7; font-weight: 600; }
+
+    .tag-diff-plus {
+      color: #dc2626;
+      font-weight: 600;
+    }
+
+    .tag-diff-minus {
+      color: #0284c7;
+      font-weight: 600;
+    }
+
     .ans-box {
       background: #f8fafc;
       padding: 6px 10px;
@@ -317,152 +505,410 @@
       color: #334155;
       max-width: 260px;
       white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .detail-btn {
+      padding: 6px 9px;
+      border: 1px solid var(--primary);
+      border-radius: 5px;
+      background: #eff6ff;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .detail-btn:hover {
+      background: #dbeafe;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <!-- 헤더 -->
     <header>
       <div class="title-area">
         <h1>송례중학교 1학년 과학 탐구 실험</h1>
-        <p>열평형 관찰 및 보고서 작성 시스템 (온도 센서 분석)</p>
+        <p>열평형 관찰 및 보고서 작성 시스템</p>
       </div>
+
       <div class="nav-tabs">
-        <button class="tab-btn active" id="tabStudentBtn" onclick="switchView('student')">학생 실험실</button>
-        <button class="tab-btn" id="tabTeacherBtn" onclick="switchView('teacher')">교사용 수합 대시보드</button>
+        <button
+          class="tab-btn active"
+          id="tabStudentBtn"
+          onclick="switchView('student')"
+        >
+          학생 실험실
+        </button>
+
+        <button
+          class="tab-btn"
+          id="tabTeacherBtn"
+          onclick="switchView('teacher')"
+        >
+          교사용 수합 대시보드
+        </button>
       </div>
     </header>
 
-    <!-- [1] 학생 뷰 -->
+    <!-- 학생 화면 -->
     <div id="studentView">
       <div class="card">
-        <div class="card-title">1. 조별 기본 정보 입력</div>
+        <div class="card-title">
+          1. 조별 기본 정보 입력
+        </div>
+
         <div class="form-grid">
           <div class="form-group">
-            <label for="classNum">반 번호 (숫자만 입력)</label>
-            <input type="number" id="classNum" min="1" max="15" placeholder="예: 3">
+            <label for="classNum">
+              반 번호
+            </label>
+
+            <input
+              type="number"
+              id="classNum"
+              min="1"
+              max="15"
+              placeholder="예: 3"
+            >
           </div>
+
           <div class="form-group">
-            <label for="groupNum">조 번호 (숫자만 입력)</label>
-            <input type="number" id="groupNum" min="1" max="15" placeholder="예: 2">
+            <label for="groupNum">
+              조 번호
+            </label>
+
+            <input
+              type="number"
+              id="groupNum"
+              min="1"
+              max="15"
+              placeholder="예: 2"
+            >
           </div>
         </div>
 
-        <div class="card-title" style="margin-top: 24px;">2. 사이언스큐브 CSV 파일 업로드</div>
-        <div class="upload-box" id="dropZone" onclick="document.getElementById('csvInput').click()">
-          <input type="file" id="csvInput" accept=".csv" onchange="handleFileSelect(event)">
-          <div class="upload-icon">📂</div>
-          <div class="upload-text">클릭하거나 CSV 파일을 이곳으로 끌어다 놓으세요</div>
-          <div class="upload-desc">https://on.sciencecube.com/ 에서 다운로드한 열평형 측정 데이터 (B열: 시간, C/D열: 센서)</div>
-          <div id="fileInfo" class="file-badge" style="display: none;"></div>
+        <div
+          class="card-title"
+          style="margin-top: 24px;"
+        >
+          2. 사이언스큐브 CSV 파일 업로드
         </div>
 
-        <!-- 데이터 지표 요약 -->
-        <div id="metricsArea" style="display: none;">
-          <div class="card-title">3. 측정 데이터 요약</div>
+        <div
+          class="upload-box"
+          id="dropZone"
+          onclick="document.getElementById('csvInput').click()"
+        >
+          <input
+            type="file"
+            id="csvInput"
+            accept=".csv"
+            onchange="handleFileSelect(event)"
+          >
+
+          <div class="upload-icon">📂</div>
+
+          <div class="upload-text">
+            클릭하거나 CSV 파일을 이곳으로 끌어다 놓으세요
+          </div>
+
+          <div class="upload-desc">
+            사이언스큐브에서 다운로드한 열평형 측정 데이터
+            (B열: 시간, C/D열: 센서)
+          </div>
+
+          <div
+            id="fileInfo"
+            class="file-badge"
+            style="display: none;"
+          ></div>
+
+          <div
+            id="sensorOrderInfo"
+            class="sensor-order-box"
+          ></div>
+
+          <div
+            id="sensorWarning"
+            class="sensor-warning"
+          ></div>
+        </div>
+
+        <div
+          id="metricsArea"
+          style="display: none;"
+        >
+          <div class="card-title">
+            3. 측정 데이터 요약
+          </div>
+
           <div class="metric-grid">
             <div class="metric-card">
-              <div class="metric-label">뜨거운 물 처음 온도</div>
-              <div class="metric-value val-hot" id="mHotInit">-</div>
+              <div class="metric-label">
+                뜨거운 물 처음 온도
+              </div>
+
+              <div
+                class="metric-value val-hot"
+                id="mHotInit"
+              >
+                -
+              </div>
             </div>
+
             <div class="metric-card">
-              <div class="metric-label">찬 물 처음 온도</div>
-              <div class="metric-value val-cold" id="mColdInit">-</div>
+              <div class="metric-label">
+                찬물 처음 온도
+              </div>
+
+              <div
+                class="metric-value val-cold"
+                id="mColdInit"
+              >
+                -
+              </div>
             </div>
+
             <div class="metric-card">
-              <div class="metric-label">최종 열평형 온도</div>
-              <div class="metric-value val-eq" id="mEqTemp">-</div>
+              <div class="metric-label">
+                최종 열평형 온도
+              </div>
+
+              <div
+                class="metric-value val-eq"
+                id="mEqTemp"
+              >
+                -
+              </div>
             </div>
+
             <div class="metric-card">
-              <div class="metric-label">계산한 중간값</div>
-              <div class="metric-value val-mid" id="mMidTemp">-</div>
+              <div class="metric-label">
+                계산한 중간값
+              </div>
+
+              <div
+                class="metric-value val-mid"
+                id="mMidTemp"
+              >
+                -
+              </div>
             </div>
           </div>
+
           <div class="chart-container">
             <canvas id="studentChart"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- 질문 답변 카드 -->
       <div class="card">
-        <div class="card-title">4. 탐구 질문 및 보고서 작성</div>
-        
-        <div class="qa-group">
-          <div class="qa-question">1. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도는 각각 어떻게 변하는가?</div>
-          <textarea id="q1" placeholder="온도 그래프의 변화 추세를 구체적으로 서술하세요."></textarea>
+        <div class="card-title">
+          4. 탐구 질문 및 보고서 작성
         </div>
 
         <div class="qa-group">
-          <div class="qa-question">2. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도가 변하는 까닭을 설명해 보자.</div>
-          <textarea id="q2" placeholder="열의 이동 방향과 관련된 까닭을 서술하세요."></textarea>
+          <div class="qa-question">
+            1. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도는 각각 어떻게 변하는가?
+          </div>
+
+          <textarea
+            id="q1"
+            placeholder="온도 그래프의 변화 추세를 구체적으로 서술하세요."
+          ></textarea>
         </div>
 
         <div class="qa-group">
-          <div class="qa-question">3. 충분한 시간이 지난 뒤 찬물과 뜨거운 물에서의 물 입자의 운동을 설명해 보자.</div>
-          <textarea id="q3" placeholder="온도와 물 입자의 활발한 정도를 연결지어 서술하세요."></textarea>
+          <div class="qa-question">
+            2. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도가 변하는 까닭을 설명해 보자.
+          </div>
+
+          <textarea
+            id="q2"
+            placeholder="열의 이동 방향과 관련된 까닭을 서술하세요."
+          ></textarea>
         </div>
 
         <div class="qa-group">
-          <div class="qa-question">4. 두 물의 온도가 같아지는 온도는 두 값의 계산한 중간값과 어떤 차이가 있는지, 그 이유를 설명해 보자.</div>
-          <textarea id="q4" placeholder="최종 온도와 계산한 중간값을 비교하고, 차이가 나는 이유(물의 양, 열 손실 등)를 적으세요."></textarea>
+          <div class="qa-question">
+            3. 충분한 시간이 지난 뒤 찬물과 뜨거운 물에서의 물 입자의 운동을 설명해 보자.
+          </div>
+
+          <textarea
+            id="q3"
+            placeholder="온도와 물 입자의 활발한 정도를 연결지어 서술하세요."
+          ></textarea>
         </div>
 
-        <button class="btn-submit" id="submitBtn" onclick="submitReport()">보고서 제출하기 (클라우드 전송)</button>
+        <div class="qa-group">
+          <div class="qa-question">
+            4. 두 물의 온도가 같아지는 온도는 두 값의 계산한 중간값과 어떤 차이가 있는지, 그 이유를 설명해 보자.
+          </div>
+
+          <textarea
+            id="q4"
+            placeholder="최종 온도와 계산한 중간값을 비교하고, 차이가 나는 이유를 적으세요."
+          ></textarea>
+        </div>
+
+        <button
+          class="btn-submit"
+          id="submitBtn"
+          onclick="submitReport()"
+        >
+          보고서 제출하기
+        </button>
       </div>
     </div>
 
-    <!-- [2] 교사 뷰 -->
-    <div id="teacherView" style="display: none;">
+    <!-- 교사 화면 -->
+    <div
+      id="teacherView"
+      style="display: none;"
+    >
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <div class="card-title" style="margin-bottom: 0;">학급별 제출 현황 및 데이터 실시간 수합</div>
-          <div class="status-badge"><span class="status-dot"></span>실시간 동기화 중</div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+          "
+        >
+          <div
+            class="card-title"
+            style="margin-bottom: 0;"
+          >
+            학급별 제출 현황 및 데이터 수합
+          </div>
+
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            실시간 동기화 중
+          </div>
         </div>
+
         <div class="teacher-filter-bar">
-          <label for="filterClass" style="font-weight: 600; font-size: 14px;">학급 선택:</label>
-          <select id="filterClass" onchange="renderTeacherDashboard()">
-            <option value="all">전체 학급 보기</option>
+          <label for="filterClass">
+            학급 선택:
+          </label>
+
+          <select id="filterClass">
+            <option value="all">
+              전체 학급
+            </option>
           </select>
-          <button onclick="clearFirestoreData()" style="margin-left: auto; padding: 6px 12px; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-size: 12px; cursor: pointer;">
+
+          <label for="filterGroup">
+            조 선택:
+          </label>
+
+          <select id="filterGroup">
+            <option value="all">
+              전체 조
+            </option>
+          </select>
+
+          <button
+            class="reset-btn"
+            onclick="resetTeacherFilters()"
+          >
+            필터 초기화
+          </button>
+
+          <button
+            class="danger-btn"
+            onclick="clearFirestoreData()"
+          >
             수합 데이터 초기화
           </button>
         </div>
 
-        <!-- 비교 차트 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+        <div
+          id="dashboardSummary"
+          class="dashboard-summary"
+        >
+          전체 제출 결과를 표시합니다.
+        </div>
+
+        <div class="report-action-bar">
+          <button
+            class="report-btn"
+            onclick="openSelectedReport()"
+          >
+            선택한 조 보고서 보기
+          </button>
+
+          <button
+            class="report-btn secondary"
+            onclick="downloadReportsCSV()"
+          >
+            CSV 다운로드
+          </button>
+        </div>
+
+        <div class="teacher-chart-grid">
           <div>
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">조별 열평형 온도 vs 계산한 중간값</div>
-            <div style="height: 260px; position: relative;">
+            <div class="teacher-chart-title">
+              열평형 온도와 계산한 중간값 비교
+            </div>
+
+            <div class="teacher-chart-box">
               <canvas id="tBarChart"></canvas>
             </div>
           </div>
+
           <div>
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">조별 열평형 곡선 비교</div>
-            <div style="height: 260px; position: relative;">
+            <div class="teacher-chart-title">
+              조별 열평형 곡선 비교
+            </div>
+
+            <div class="teacher-chart-box">
               <canvas id="tLineChart"></canvas>
             </div>
           </div>
         </div>
 
-        <!-- 수합 테이블 -->
-        <div class="card-title" style="margin-top: 20px;">조별 제출 보고서 및 답변 비교</div>
+        <div
+          class="card-title"
+          style="margin-top: 20px;"
+        >
+          제출 보고서 및 질문 4번 답변
+        </div>
+
         <div class="table-container">
           <table>
             <thead>
               <tr>
                 <th>반/조</th>
                 <th>뜨거운 물 처음</th>
-                <th>찬 물 처음</th>
+                <th>찬물 처음</th>
                 <th>열평형 온도</th>
                 <th>계산한 중간값</th>
-                <th>차이 (열평형 - 중간값)</th>
-                <th>질문 4번 (중간값 차이 이유 서술)</th>
+                <th>차이</th>
+                <th>질문 4번</th>
+                <th>상세</th>
               </tr>
             </thead>
+
             <tbody id="teacherTableBody">
-              <tr><td colspan="7" style="text-align: center; color: var(--muted); padding: 24px;">데이터 로딩 중 또는 제출된 데이터가 없습니다.</td></tr>
+              <tr>
+                <td
+                  colspan="8"
+                  style="
+                    text-align: center;
+                    color: var(--muted);
+                    padding: 24px;
+                  "
+                >
+                  데이터 로딩 중 또는 제출된 데이터가 없습니다.
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -470,18 +916,20 @@
     </div>
   </div>
 
-  <!-- Firebase 및 실시간 Firestore 로직 -->
+  <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
-    import { 
-      getFirestore, 
-      collection, 
-      doc, 
-      setDoc, 
-      onSnapshot, 
-      getDocs, 
-      deleteDoc 
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      onSnapshot,
+      getDocs,
+      deleteDoc
     } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -494,175 +942,299 @@
       measurementId: "G-HNT2GBRD6G"
     };
 
-    // Firebase 및 Firestore 초기화
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     const db = getFirestore(app);
     const reportsCol = collection(db, "thermal_reports");
 
-    // 전역 공유 상태
     window.remoteReports = [];
 
-    // [핵심] Firestore 실시간 데이터 구독 (onSnapshot)
-    onSnapshot(reportsCol, (snapshot) => {
-      const list = [];
-      snapshot.forEach((d) => {
-        list.push(d.data());
-      });
-      window.remoteReports = list;
+    onSnapshot(
+      reportsCol,
+      snapshot => {
+        const list = [];
 
-      // 교사 화면이 열려있다면 즉시 재렌더링
-      populateClassFilter();
-      renderTeacherDashboard();
-    }, (error) => {
-      console.error("Firestore 실시간 수신 오류:", error);
-    });
+        snapshot.forEach(documentSnapshot => {
+          list.push(documentSnapshot.data());
+        });
 
-    // Firestore 보고서 제출 함수
+        window.remoteReports = list;
+
+        if (typeof populateClassFilter === "function") {
+          populateClassFilter();
+        }
+
+        if (typeof renderTeacherDashboard === "function") {
+          renderTeacherDashboard();
+        }
+      },
+      error => {
+        console.error("Firestore 실시간 수신 오류:", error);
+      }
+    );
+
     window.saveReportToFirestore = async function(record) {
-      // 문서 ID는 "class-group" 형식 (예: 3반 2조 -> "3-2") 으로 지정하여 중복 제출 시 자동 갱신
-      const docRef = doc(db, "thermal_reports", `${record.classNum}-${record.groupNum}`);
-      await setDoc(docRef, record);
+      const documentReference = doc(
+        db,
+        "thermal_reports",
+        `${record.classNum}-${record.groupNum}`
+      );
+
+      await setDoc(documentReference, record);
     };
 
-    // Firestore 전체 보고서 삭제 함수
     window.clearFirestoreReports = async function() {
       const snapshot = await getDocs(reportsCol);
-      const deletePromises = snapshot.docs.map((d) => deleteDoc(d.ref));
+
+      const deletePromises = snapshot.docs.map(
+        documentSnapshot => deleteDoc(documentSnapshot.ref)
+      );
+
       await Promise.all(deletePromises);
     };
   </script>
 
-  <!-- 메인 UI 및 차트 처리 스크립트 -->
+  <!-- 화면 및 데이터 처리 -->
   <script>
     let currentStudentData = null;
     let studentChartInstance = null;
     let tBarChartInstance = null;
     let tLineChartInstance = null;
 
-    // 드래그 앤 드롭 이벤트 설정
-    const dropZone = document.getElementById('dropZone');
-    ['dragenter', 'dragover'].forEach(name => {
-      dropZone.addEventListener(name, (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
+    const dropZone = document.getElementById("dropZone");
+
+    ["dragenter", "dragover"].forEach(eventName => {
+      dropZone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropZone.classList.add("dragover");
       });
     });
-    ['dragleave', 'drop'].forEach(name => {
-      dropZone.addEventListener(name, (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
+
+    ["dragleave", "drop"].forEach(eventName => {
+      dropZone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropZone.classList.remove("dragover");
       });
     });
-    dropZone.addEventListener('drop', (e) => {
-      if (e.dataTransfer.files.length) {
-        parseCSV(e.dataTransfer.files[0]);
+
+    dropZone.addEventListener("drop", event => {
+      if (event.dataTransfer.files.length > 0) {
+        parseCSV(event.dataTransfer.files[0]);
       }
     });
 
-    function handleFileSelect(e) {
-      if (e.target.files.length) {
-        parseCSV(e.target.files[0]);
+    function handleFileSelect(event) {
+      if (event.target.files.length > 0) {
+        parseCSV(event.target.files[0]);
       }
     }
 
-    // 사이언스큐브 CSV 파싱 및 데이터 압축(표본화)
     function parseCSV(file) {
       const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
+
+      reader.onload = function(event) {
+        const text = event.target.result;
         const lines = text.split(/\r\n|\n/);
-        let labels = [];
-        let hotData = [];
-        let coldData = [];
 
-        for (let i = 0; i < lines.length; i++) {
-          const row = lines[i].split(',').map(s => s.trim());
-          if (row.length < 4) continue;
-          
+        const labels = [];
+        const sensor1Data = [];
+        const sensor2Data = [];
+
+        for (let index = 0; index < lines.length; index++) {
+          const row = lines[index]
+            .split(",")
+            .map(value => value.trim());
+
+          if (row.length < 4) {
+            continue;
+          }
+
           const time = parseFloat(row[1]);
-          const val1 = parseFloat(row[2]);
-          const val2 = parseFloat(row[3]);
+          const sensor1 = parseFloat(row[2]);
+          const sensor2 = parseFloat(row[3]);
 
-          if (!isNaN(time) && !isNaN(val1) && !isNaN(val2)) {
+          if (
+            !Number.isNaN(time) &&
+            !Number.isNaN(sensor1) &&
+            !Number.isNaN(sensor2)
+          ) {
             labels.push(time);
-            hotData.push(val1);
-            coldData.push(val2);
+            sensor1Data.push(sensor1);
+            sensor2Data.push(sensor2);
           }
         }
 
         if (labels.length === 0) {
-          alert("사이언스큐브 CSV 형식에 맞는 유효한 데이터가 없습니다. (B열: 시간, C열: 온도1, D열: 온도2 확인)");
+          alert(
+            "유효한 데이터가 없습니다. " +
+            "B열은 시간, C열과 D열은 온도인지 확인해 주세요."
+          );
+
           return;
         }
 
-        // 초기/최종 지표 산출
+        const sensor1Initial = sensor1Data[0];
+        const sensor2Initial = sensor2Data[0];
+
+        let hotData;
+        let coldData;
+        let hotSensorName;
+        let coldSensorName;
+
+        if (sensor1Initial >= sensor2Initial) {
+          hotData = sensor1Data.slice();
+          coldData = sensor2Data.slice();
+          hotSensorName = "센서 1(C열)";
+          coldSensorName = "센서 2(D열)";
+        } else {
+          hotData = sensor2Data.slice();
+          coldData = sensor1Data.slice();
+          hotSensorName = "센서 2(D열)";
+          coldSensorName = "센서 1(C열)";
+        }
+
         const hotInit = hotData[0];
         const coldInit = coldData[0];
-        const lastSlice = 5;
+
+        const lastSlice = Math.min(5, hotData.length);
+
         const lastHot = hotData.slice(-lastSlice);
         const lastCold = coldData.slice(-lastSlice);
-        const eqTemp = Number(((lastHot.reduce((a,b)=>a+b,0) + lastCold.reduce((a,b)=>a+b,0)) / (lastSlice * 2)).toFixed(1));
-        const midTemp = Number(((hotInit + coldInit) / 2).toFixed(1));
 
-        // Firestore 저장 용량 및 브라우저 성능 최적화를 위해 100개 지점 단위로 다운샘플링
-        if (labels.length > 120) {
-          const step = Math.ceil(labels.length / 100);
-          labels = labels.filter((_, idx) => idx % step === 0);
-          hotData = hotData.filter((_, idx) => idx % step === 0);
-          coldData = coldData.filter((_, idx) => idx % step === 0);
+        const hotAverage =
+          lastHot.reduce((sum, value) => sum + value, 0) /
+          lastHot.length;
+
+        const coldAverage =
+          lastCold.reduce((sum, value) => sum + value, 0) /
+          lastCold.length;
+
+        const eqTemp = Number(
+          ((hotAverage + coldAverage) / 2).toFixed(1)
+        );
+
+        const midTemp = Number(
+          ((hotInit + coldInit) / 2).toFixed(1)
+        );
+
+        const sensorDifference = Math.abs(
+          sensor1Initial - sensor2Initial
+        );
+
+        let displayLabels = labels.slice();
+        let displayHotData = hotData.slice();
+        let displayColdData = coldData.slice();
+
+        if (displayLabels.length > 120) {
+          const step = Math.ceil(displayLabels.length / 100);
+
+          displayLabels = displayLabels.filter(
+            (_, index) => index % step === 0
+          );
+
+          displayHotData = displayHotData.filter(
+            (_, index) => index % step === 0
+          );
+
+          displayColdData = displayColdData.filter(
+            (_, index) => index % step === 0
+          );
         }
 
         currentStudentData = {
           fileName: file.name,
-          labels,
-          hotData,
-          coldData,
+          labels: displayLabels,
+          hotData: displayHotData,
+          coldData: displayColdData,
           hotInit,
           coldInit,
           eqTemp,
-          midTemp
+          midTemp,
+          hotSensorName,
+          coldSensorName
         };
 
-        // UI 갱신
-        document.getElementById('fileInfo').innerText = `선택된 파일: ${file.name} (${labels.length}개 지점 측정)`;
-        document.getElementById('fileInfo').style.display = 'inline-block';
-        document.getElementById('metricsArea').style.display = 'block';
+        document.getElementById("fileInfo").innerText =
+          `선택된 파일: ${file.name} ` +
+          `(${displayLabels.length}개 지점 측정)`;
 
-        document.getElementById('mHotInit').innerText = `${hotInit}℃`;
-        document.getElementById('mColdInit').innerText = `${coldInit}℃`;
-        document.getElementById('mEqTemp').innerText = `${eqTemp}℃`;
-        document.getElementById('mMidTemp').innerText = `${midTemp}℃`;
+        document.getElementById("fileInfo").style.display =
+          "inline-block";
 
-        renderStudentChart(labels, hotData, coldData);
+        const sensorOrderInfo =
+          document.getElementById("sensorOrderInfo");
+
+        sensorOrderInfo.innerText =
+          `자동 판별 결과: ${hotSensorName} = 뜨거운 물, ` +
+          `${coldSensorName} = 찬물 ` +
+          `(초기 온도 ${hotInit}℃ / ${coldInit}℃)`;
+
+        sensorOrderInfo.style.display = "block";
+
+        const sensorWarning =
+          document.getElementById("sensorWarning");
+
+        if (sensorDifference < 2) {
+          sensorWarning.innerText =
+            "두 센서의 초기 온도 차이가 작습니다. " +
+            "센서가 뜨거운 물과 찬물에 올바르게 연결되었는지 확인해 주세요.";
+
+          sensorWarning.style.display = "block";
+        } else {
+          sensorWarning.style.display = "none";
+        }
+
+        document.getElementById("metricsArea").style.display =
+          "block";
+
+        document.getElementById("mHotInit").innerText =
+          `${hotInit}℃`;
+
+        document.getElementById("mColdInit").innerText =
+          `${coldInit}℃`;
+
+        document.getElementById("mEqTemp").innerText =
+          `${eqTemp}℃`;
+
+        document.getElementById("mMidTemp").innerText =
+          `${midTemp}℃`;
+
+        renderStudentChart(
+          displayLabels,
+          displayHotData,
+          displayColdData
+        );
       };
+
       reader.readAsText(file);
     }
 
-    // 학생 개별 차트 렌더링
     function renderStudentChart(labels, hot, cold) {
-      const ctx = document.getElementById('studentChart').getContext('2d');
-      if (studentChartInstance) studentChartInstance.destroy();
+      const canvas = document.getElementById("studentChart");
+      const context = canvas.getContext("2d");
 
-      studentChartInstance = new Chart(ctx, {
-        type: 'line',
+      if (studentChartInstance) {
+        studentChartInstance.destroy();
+      }
+
+      studentChartInstance = new Chart(context, {
+        type: "line",
         data: {
-          labels: labels,
+          labels,
           datasets: [
             {
-              label: '뜨거운 물 (센서 1)',
+              label: "뜨거운 물",
               data: hot,
-              borderColor: '#dc2626',
-              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              borderColor: "#dc2626",
+              backgroundColor: "rgba(220, 38, 38, 0.1)",
               borderWidth: 2,
               pointRadius: 0,
               tension: 0.1
             },
             {
-              label: '찬 물 (센서 2)',
+              label: "찬물",
               data: cold,
-              borderColor: '#0284c7',
-              backgroundColor: 'rgba(2, 132, 199, 0.1)',
+              borderColor: "#0284c7",
+              backgroundColor: "rgba(2, 132, 199, 0.1)",
               borderWidth: 2,
               pointRadius: 0,
               tension: 0.1
@@ -672,37 +1244,60 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          interaction: { mode: 'index', intersect: false },
+          interaction: {
+            mode: "index",
+            intersect: false
+          },
           scales: {
-            x: { title: { display: true, text: '시간 (초)' } },
-            y: { title: { display: true, text: '온도 (℃)' } }
+            x: {
+              title: {
+                display: true,
+                text: "시간 (초)"
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: "온도 (℃)"
+              }
+            }
           }
         }
       });
     }
 
-    // 학생 보고서 제출 (Firestore 전송)
     async function submitReport() {
-      const classNum = document.getElementById('classNum').value.trim();
-      const groupNum = document.getElementById('groupNum').value.trim();
-      const submitBtn = document.getElementById('submitBtn');
+      const classNum =
+        document.getElementById("classNum").value.trim();
+
+      const groupNum =
+        document.getElementById("groupNum").value.trim();
+
+      const submitBtn =
+        document.getElementById("submitBtn");
 
       if (!classNum || !groupNum) {
-        alert("반 번호와 조 번호를 숫자로 모두 입력해 주세요.");
-        return;
-      }
-      if (!currentStudentData) {
-        alert("먼저 사이언스큐브 측정 CSV 파일을 업로드해 주세요.");
+        alert("반 번호와 조 번호를 입력해 주세요.");
         return;
       }
 
-      const q1 = document.getElementById('q1').value.trim();
-      const q2 = document.getElementById('q2').value.trim();
-      const q3 = document.getElementById('q3').value.trim();
-      const q4 = document.getElementById('q4').value.trim();
+      if (!currentStudentData) {
+        alert("먼저 CSV 파일을 업로드해 주세요.");
+        return;
+      }
+
+      const q1 = document.getElementById("q1").value.trim();
+      const q2 = document.getElementById("q2").value.trim();
+      const q3 = document.getElementById("q3").value.trim();
+      const q4 = document.getElementById("q4").value.trim();
 
       if (!q1 || !q2 || !q3 || !q4) {
-        if (!confirm("아직 작성하지 않은 질문이 있습니다. 그래도 제출하시겠습니까?")) {
+        const shouldSubmit = confirm(
+          "아직 작성하지 않은 질문이 있습니다. " +
+          "그래도 제출하시겠습니까?"
+        );
+
+        if (!shouldSubmit) {
           return;
         }
       }
@@ -718,193 +1313,791 @@
         labels: currentStudentData.labels,
         hotData: currentStudentData.hotData,
         coldData: currentStudentData.coldData,
-        answers: { q1, q2, q3, q4 },
-        submittedAt: new Date().toLocaleTimeString('ko-KR')
+        hotSensorName: currentStudentData.hotSensorName,
+        coldSensorName: currentStudentData.coldSensorName,
+        answers: {
+          q1,
+          q2,
+          q3,
+          q4
+        },
+        submittedAt: new Date().toLocaleTimeString("ko-KR")
       };
 
       try {
         submitBtn.disabled = true;
         submitBtn.innerText = "클라우드 전송 중...";
-        
+
         await window.saveReportToFirestore(newRecord);
 
-        alert(`${classNum}반 ${groupNum}조 보고서가 실시간 클라우드(Firestore)로 제출되었습니다!\n교사용 대시보드에 즉시 반영됩니다.`);
-      } catch (err) {
-        console.error("제출 실패:", err);
-        alert("제출에 실패했습니다. Firebase Firestore 보안 규칙 및 인터넷 연결 상태를 확인해 주세요.");
+        alert(
+          `${classNum}반 ${groupNum}조 보고서가 제출되었습니다.`
+        );
+      } catch (error) {
+        console.error("제출 실패:", error);
+
+        alert(
+          "제출에 실패했습니다. Firebase 설정과 인터넷 연결을 확인해 주세요."
+        );
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerText = "보고서 제출하기 (클라우드 전송)";
+        submitBtn.innerText = "보고서 제출하기";
       }
     }
 
-    // 뷰 전환
     function switchView(view) {
-      if (view === 'student') {
-        document.getElementById('studentView').style.display = 'block';
-        document.getElementById('teacherView').style.display = 'none';
-        document.getElementById('tabStudentBtn').classList.add('active');
-        document.getElementById('tabTeacherBtn').classList.remove('active');
+      const studentView =
+        document.getElementById("studentView");
+
+      const teacherView =
+        document.getElementById("teacherView");
+
+      const studentButton =
+        document.getElementById("tabStudentBtn");
+
+      const teacherButton =
+        document.getElementById("tabTeacherBtn");
+
+      if (view === "student") {
+        studentView.style.display = "block";
+        teacherView.style.display = "none";
+
+        studentButton.classList.add("active");
+        teacherButton.classList.remove("active");
       } else {
-        document.getElementById('studentView').style.display = 'none';
-        document.getElementById('teacherView').style.display = 'block';
-        document.getElementById('tabStudentBtn').classList.remove('active');
-        document.getElementById('tabTeacherBtn').classList.add('active');
+        studentView.style.display = "none";
+        teacherView.style.display = "block";
+
+        studentButton.classList.remove("active");
+        teacherButton.classList.add("active");
+
         populateClassFilter();
         renderTeacherDashboard();
       }
     }
 
-    // 학급 드롭다운 갱신
     function populateClassFilter() {
       const data = window.remoteReports || [];
-      const select = document.getElementById('filterClass');
-      const currentVal = select.value;
-      const classSet = new Set(data.map(d => d.classNum));
-      const sortedClasses = Array.from(classSet).sort((a,b)=>a-b);
+      const classSelect =
+        document.getElementById("filterClass");
 
-      select.innerHTML = '<option value="all">전체 학급 보기</option>';
-      sortedClasses.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        opt.innerText = `${c}반`;
-        select.appendChild(opt);
+      const previousValue = classSelect.value;
+
+      const classes = Array.from(
+        new Set(
+          data
+            .map(item => Number(item.classNum))
+            .filter(Number.isFinite)
+        )
+      ).sort((a, b) => a - b);
+
+      classSelect.innerHTML = "";
+
+      const allOption = document.createElement("option");
+      allOption.value = "all";
+      allOption.textContent = "전체 학급";
+      classSelect.appendChild(allOption);
+
+      classes.forEach(classNum => {
+        const option = document.createElement("option");
+        option.value = String(classNum);
+        option.textContent = `${classNum}반`;
+        classSelect.appendChild(option);
       });
-      if (sortedClasses.includes(parseInt(currentVal, 10))) {
-        select.value = currentVal;
+
+      if (
+        previousValue === "all" ||
+        classes.includes(Number(previousValue))
+      ) {
+        classSelect.value = previousValue;
+      } else {
+        classSelect.value = "all";
       }
+
+      updateGroupFilter();
     }
 
-    // 교사 실시간 대시보드 렌더링
-    function renderTeacherDashboard() {
-      const allData = window.remoteReports || [];
-      const filterVal = document.getElementById('filterClass').value;
-      
-      const filteredData = filterVal === 'all' 
-        ? allData 
-        : allData.filter(d => d.classNum === parseInt(filterVal, 10));
+    function updateGroupFilter() {
+      const data = window.remoteReports || [];
 
-      filteredData.sort((a,b) => (a.classNum - b.classNum) || (a.groupNum - b.groupNum));
+      const classValue =
+        document.getElementById("filterClass").value;
 
-      // 1. 수합 테이블 렌더링
-      const tbody = document.getElementById('teacherTableBody');
-      if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--muted); padding: 24px;">제출된 데이터가 없습니다.</td></tr>';
+      const groupSelect =
+        document.getElementById("filterGroup");
+
+      const previousValue = groupSelect.value;
+
+      const filteredByClass =
+        classValue === "all"
+          ? data
+          : data.filter(
+              item => item.classNum === Number(classValue)
+            );
+
+      const groups = Array.from(
+        new Set(
+          filteredByClass
+            .map(item => Number(item.groupNum))
+            .filter(Number.isFinite)
+        )
+      ).sort((a, b) => a - b);
+
+      groupSelect.innerHTML = "";
+
+      const allOption = document.createElement("option");
+      allOption.value = "all";
+      allOption.textContent = "전체 조";
+      groupSelect.appendChild(allOption);
+
+      groups.forEach(groupNum => {
+        const option = document.createElement("option");
+        option.value = String(groupNum);
+        option.textContent = `${groupNum}조`;
+        groupSelect.appendChild(option);
+      });
+
+      if (
+        previousValue === "all" ||
+        groups.includes(Number(previousValue))
+      ) {
+        groupSelect.value = previousValue;
       } else {
-        tbody.innerHTML = filteredData.map(d => {
-          const diff = Number((d.eqTemp - d.midTemp).toFixed(1));
-          const diffClass = diff > 0 ? 'tag-diff-plus' : (diff < 0 ? 'tag-diff-minus' : '');
-          const diffSign = diff > 0 ? `+${diff}` : `${diff}`;
+        groupSelect.value = "all";
+      }
+
+      renderTeacherDashboard();
+    }
+
+    function resetTeacherFilters() {
+      document.getElementById("filterClass").value = "all";
+      document.getElementById("filterGroup").value = "all";
+
+      updateGroupFilter();
+      renderTeacherDashboard();
+    }
+
+    function getFilteredReports() {
+      const data = window.remoteReports || [];
+
+      const classValue =
+        document.getElementById("filterClass").value;
+
+      const groupValue =
+        document.getElementById("filterGroup").value;
+
+      return data
+        .filter(item => {
+          const classMatches =
+            classValue === "all" ||
+            item.classNum === Number(classValue);
+
+          const groupMatches =
+            groupValue === "all" ||
+            item.groupNum === Number(groupValue);
+
+          return classMatches && groupMatches;
+        })
+        .sort((a, b) => {
+          return (
+            a.classNum - b.classNum ||
+            a.groupNum - b.groupNum
+          );
+        });
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderTeacherDashboard() {
+      const filteredData = getFilteredReports();
+
+      renderDashboardSummary(filteredData);
+      renderTeacherTable(filteredData);
+      renderTemperatureBarChart(filteredData);
+      renderTemperatureLineChart(filteredData);
+    }
+
+    function renderDashboardSummary(data) {
+      const classValue =
+        document.getElementById("filterClass").value;
+
+      const groupValue =
+        document.getElementById("filterGroup").value;
+
+      let targetText = "전체 학급·전체 조";
+
+      if (classValue !== "all" && groupValue !== "all") {
+        targetText =
+          `${classValue}반 ${groupValue}조`;
+      } else if (classValue !== "all") {
+        targetText =
+          `${classValue}반 전체 조`;
+      }
+
+      document.getElementById("dashboardSummary").innerText =
+        `${targetText} 결과 ${data.length}건`;
+    }
+
+    function renderTeacherTable(data) {
+      const tbody =
+        document.getElementById("teacherTableBody");
+
+      if (data.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td
+              colspan="8"
+              style="
+                text-align: center;
+                color: var(--muted);
+                padding: 24px;
+              "
+            >
+              선택한 조건의 제출 데이터가 없습니다.
+            </td>
+          </tr>
+        `;
+
+        return;
+      }
+
+      tbody.innerHTML = data
+        .map(item => {
+          const diff = Number(
+            (item.eqTemp - item.midTemp).toFixed(1)
+          );
+
+          const diffText =
+            diff > 0
+              ? `+${diff}`
+              : String(diff);
+
+          const diffClass =
+            diff > 0
+              ? "tag-diff-plus"
+              : diff < 0
+                ? "tag-diff-minus"
+                : "";
+
+          const safeId = encodeURIComponent(
+            String(item.id || `${item.classNum}-${item.groupNum}`)
+          );
+
           return `
             <tr>
-              <td><strong>${d.classNum}반 ${d.groupNum}조</strong></td>
-              <td>${d.hotInit}℃</td>
-              <td>${d.coldInit}℃</td>
-              <td style="color: #16a34a; font-weight: 700;">${d.eqTemp}℃</td>
-              <td style="color: #9333ea; font-weight: 600;">${d.midTemp}℃</td>
-              <td class="${diffClass}">${diffSign}℃</td>
-              <td><div class="ans-box">${d.answers?.q4 || '(미작성)'}</div></td>
+              <td>
+                <strong>
+                  ${escapeHTML(item.classNum)}반
+                  ${escapeHTML(item.groupNum)}조
+                </strong>
+              </td>
+
+              <td>
+                ${escapeHTML(item.hotInit)}℃
+              </td>
+
+              <td>
+                ${escapeHTML(item.coldInit)}℃
+              </td>
+
+              <td
+                style="
+                  color: #16a34a;
+                  font-weight: 700;
+                "
+              >
+                ${escapeHTML(item.eqTemp)}℃
+              </td>
+
+              <td
+                style="
+                  color: #9333ea;
+                  font-weight: 600;
+                "
+              >
+                ${escapeHTML(item.midTemp)}℃
+              </td>
+
+              <td class="${diffClass}">
+                ${diffText}℃
+              </td>
+
+              <td>
+                <div class="ans-box">
+                  ${escapeHTML(
+                    item.answers?.q4 || "(미작성)"
+                  )}
+                </div>
+              </td>
+
+              <td>
+                <button
+                  class="detail-btn"
+                  data-report-id="${safeId}"
+                  onclick="openReportFromButton(this)"
+                >
+                  보고서 보기
+                </button>
+              </td>
             </tr>
           `;
-        }).join('');
-      }
-
-      // 2. 바 차트 (열평형 온도 vs 계산한 중간값)
-      const barLabels = filteredData.map(d => `${d.classNum}반 ${d.groupNum}조`);
-      const eqTemps = filteredData.map(d => d.eqTemp);
-      const midTemps = filteredData.map(d => d.midTemp);
-
-      const ctxBar = document.getElementById('tBarChart').getContext('2d');
-      if (tBarChartInstance) tBarChartInstance.destroy();
-      tBarChartInstance = new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-          labels: barLabels,
-          datasets: [
-            {
-              label: '최종 열평형 온도 (℃)',
-              data: eqTemps,
-              backgroundColor: '#16a34a'
-            },
-            {
-              label: '계산한 중간값 (℃)',
-              data: midTemps,
-              backgroundColor: '#a855f7'
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: { title: { display: true, text: '온도 (℃)' } }
-          }
-        }
-      });
-
-      // 3. 중첩 선 그래프 (조별 열평형 곡선 비교)
-      const ctxLine = document.getElementById('tLineChart').getContext('2d');
-      if (tLineChartInstance) tLineChartInstance.destroy();
-
-      const palette = ['#2563eb', '#dc2626', '#059669', '#d97706', '#7c3aed', '#db2777'];
-      const datasets = [];
-
-      filteredData.forEach((d, idx) => {
-        const color = palette[idx % palette.length];
-        datasets.push({
-          label: `${d.classNum}반 ${d.groupNum}조(고온)`,
-          data: d.hotData,
-          borderColor: color,
-          borderWidth: 1.5,
-          pointRadius: 0,
-          tension: 0.1
-        });
-        datasets.push({
-          label: `${d.classNum}반 ${d.groupNum}조(저온)`,
-          data: d.coldData,
-          borderColor: color,
-          borderDash: [4, 4],
-          borderWidth: 1.5,
-          pointRadius: 0,
-          tension: 0.1
-        });
-      });
-
-      let maxLabels = [];
-      filteredData.forEach(d => {
-        if (d.labels && d.labels.length > maxLabels.length) maxLabels = d.labels;
-      });
-
-      tLineChartInstance = new Chart(ctxLine, {
-        type: 'line',
-        data: {
-          labels: maxLabels,
-          datasets: datasets
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: { title: { display: true, text: '시간 (초)' } },
-            y: { title: { display: true, text: '온도 (℃)' } }
-          }
-        }
-      });
+        })
+        .join("");
     }
 
-    // 클라우드 전체 데이터 삭제 함수
-    async function clearFirestoreData() {
-      if (confirm("클라우드(Firestore)에 저장된 전체 조별 보고서를 삭제하시겠습니까?\n모든 기기에서 즉시 데이터가 비워집니다.")) {
-        try {
-          await window.clearFirestoreReports();
-          alert("전체 데이터가 정상적으로 초기화되었습니다.");
-        } catch (err) {
-          console.error("초기화 실패:", err);
-          alert("데이터 초기화에 실패했습니다.");
+    function openReportFromButton(button) {
+      const encodedId =
+        button.getAttribute("data-report-id");
+
+      const reportId =
+        decodeURIComponent(encodedId);
+
+      openReportById(reportId);
+    }
+
+    function openSelectedReport() {
+      const data = getFilteredReports();
+
+      if (data.length === 0) {
+        alert("보고서를 확인할 제출 결과가 없습니다.");
+        return;
+      }
+
+      if (data.length > 1) {
+        alert(
+          "특정 학급과 특정 조를 선택한 뒤 사용해 주세요.\n" +
+          "여러 조를 선택한 경우에는 각 행의 보고서 보기 버튼을 이용할 수 있습니다."
+        );
+
+        return;
+      }
+
+      openReportWindow(data[0]);
+    }
+
+    function openReportById(reportId) {
+      const data = window.remoteReports || [];
+
+      const report = data.find(item => {
+        const currentId =
+          item.id || `${item.classNum}-${item.groupNum}`;
+
+        return String(currentId) === String(reportId);
+      });
+
+      if (!report) {
+        alert("해당 보고서를 찾을 수 없습니다.");
+        return;
+      }
+
+      openReportWindow(report);
+    }
+
+    function openReportWindow(report) {
+      const answers = report.answers || {};
+
+      const reportWindow = window.open(
+        "",
+        "_blank",
+        "width=900,height=800,scrollbars=yes"
+      );
+
+      if (!reportWindow) {
+        alert(
+          "보고서 창을 열 수 없습니다. " +
+          "브라우저의 팝업 차단을 해제해 주세요."
+        );
+
+        return;
+      }
+
+      const safe = value => {
+        return escapeHTML(value || "(미작성)");
+      };
+
+      reportWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="ko">
+        <head>
+          <meta charset="UTF-8">
+
+          <title>
+            ${safe(report.classNum)}반
+            ${safe(report.groupNum)}조 열평형 탐구 보고서
+          </title>
+
+          <style>
+            * {
+              box-sizing: border-box;
+            }
+
+            body {
+              margin: 0;
+              padding: 32px;
+              color: #0f172a;
+              background: #f8fafc;
+              font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Noto Sans KR",
+                sans-serif;
+              line-height: 1.6;
+            }
+
+            .report {
+              max-width: 820px;
+              margin: 0 auto;
+              padding: 32px;
+              background: #fff;
+              border: 1px solid #cbd5e1;
+              border-radius: 10px;
+            }
+
+            h1 {
+              margin: 0 0 6px;
+              font-size: 24px;
+            }
+
+            .subtitle {
+              margin-bottom: 24px;
+              color: #64748b;
+              font-size: 14px;
+            }
+
+            .section {
+              margin-top: 24px;
+            }
+
+            .section-title {
+              padding-bottom: 8px;
+              border-bottom: 2px solid #2563eb;
+              font-size: 17px;
+              font-weight: 700;
+            }
+
+            .info-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 10px;
+              margin-top: 12px;
+            }
+
+            .info-item {
+              padding: 12px;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              border-radius: 6px;
+            }
+
+            .info-label {
+              color: #64748b;
+              font-size: 12px;
+            }
+
+            .info-value {
+              margin-top: 3px;
+              font-size: 17px;
+              font-weight: 700;
+            }
+
+            .answer {
+              margin-top: 14px;
+              padding: 14px;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              border-radius: 6px;
+              white-space: pre-wrap;
+              word-break: break-word;
+            }
+
+            .question {
+              margin-bottom: 6px;
+              font-weight: 700;
+            }
+
+            .print-btn {
+              margin-bottom: 20px;
+              padding: 9px 14px;
+              border: 0;
+              border-radius: 6px;
+              background: #2563eb;
+              color: #fff;
+              font-weight: 700;
+              cursor: pointer;
+            }
+
+            @media print {
+              body {
+                padding: 0;
+                background: #fff;
+              }
+
+              .report {
+                max-width: none;
+                border: 0;
+                border-radius: 0;
+              }
+
+              .print-btn {
+                display: none;
+              }
+            }
+
+            @media (max-width: 600px) {
+              body {
+                padding: 12px;
+              }
+
+              .report {
+                padding: 18px;
+              }
+
+              .info-grid {
+                grid-template-columns: 1fr;
+              }
+            }
+          </style>
+        </head>
+
+        <body>
+          <main class="report">
+            <button
+              class="print-btn"
+              onclick="window.print()"
+            >
+              인쇄 또는 PDF로 저장
+            </button>
+
+            <h1>
+              열평형 탐구 보고서
+            </h1>
+
+            <div class="subtitle">
+              ${safe(report.classNum)}반
+              ${safe(report.groupNum)}조
+              · 제출 시각: ${safe(report.submittedAt)}
+            </div>
+
+            <section class="section">
+              <div class="section-title">
+                측정 데이터 요약
+              </div>
+
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-label">
+                    뜨거운 물 처음 온도
+                  </div>
+
+                  <div class="info-value">
+                    ${safe(report.hotInit)}℃
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-label">
+                    찬물 처음 온도
+                  </div>
+
+                  <div class="info-value">
+                    ${safe(report.coldInit)}℃
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-label">
+                    최종 열평형 온도
+                  </div>
+
+                  <div class="info-value">
+                    ${safe(report.eqTemp)}℃
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="info-label">
+                    계산한 중간값
+                  </div>
+
+                  <div class="info-value">
+                    ${safe(report.midTemp)}℃
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-title">
+                탐구 질문 및 답변
+              </div>
+
+              <div class="answer">
+                <div class="question">
+                  1. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도는 각각 어떻게 변하는가?
+                </div>
+
+                ${safe(answers.q1)}
+              </div>
+
+              <div class="answer">
+                <div class="question">
+                  2. 시간이 흐름에 따라 찬물과 뜨거운 물의 온도가 변하는 까닭은 무엇인가?
+                </div>
+
+                ${safe(answers.q2)}
+              </div>
+
+              <div class="answer">
+                <div class="question">
+                  3. 충분한 시간이 지난 뒤 찬물과 뜨거운 물에서 물 입자의 운동은 어떠한가?
+                </div>
+
+                ${safe(answers.q3)}
+              </div>
+
+              <div class="answer">
+                <div class="question">
+                  4. 열평형 온도와 계산한 중간값이 다른 이유는 무엇인가?
+                </div>
+
+                ${safe(answers.q4)}
+              </div>
+            </section>
+          </main>
+        </body>
+        </html>
+      `);
+
+      reportWindow.document.close();
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+
+      if (
+        text.includes(",") ||
+        text.includes('"') ||
+        text.includes("\n") ||
+        text.includes("\r")
+      ) {
+        return `"${text.replace(/"/g, '""')}"`;
+      }
+
+      return text;
+    }
+
+    function downloadReportsCSV() {
+      const data = getFilteredReports();
+
+      if (data.length === 0) {
+        alert("다운로드할 보고서가 없습니다.");
+        return;
+      }
+
+      const header = [
+        "반",
+        "조",
+        "뜨거운 물 처음 온도",
+        "찬물 처음 온도",
+        "열평형 온도",
+        "계산한 중간값",
+        "열평형-중간값",
+        "질문1 답변",
+        "질문2 답변",
+        "질문3 답변",
+        "질문4 답변",
+        "제출 시각"
+      ];
+
+      const rows = data.map(item => {
+        const diff = Number(
+          (item.eqTemp - item.midTemp).toFixed(1)
+        );
+
+        return [
+          item.classNum,
+          item.groupNum,
+          item.hotInit,
+          item.coldInit,
+          item.eqTemp,
+          item.midTemp,
+          diff,
+          item.answers?.q1 || "",
+          item.answers?.q2 || "",
+          item.answers?.q3 || "",
+          item.answers?.q4 || "",
+          item.submittedAt || ""
+        ];
+      });
+
+      const csvContent = [
+        header,
+        ...rows
+      ]
+        .map(row => row.map(csvEscape).join(","))
+        .join("\r\n");
+
+      const bom = "\uFEFF";
+
+      const blob = new Blob(
+        [bom + csvContent],
+        {
+          type: "text/csv;charset=utf-8;"
         }
+      );
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      const classValue =
+        document.getElementById("filterClass").value;
+
+      const groupValue =
+        document.getElementById("filterGroup").value;
+
+      let fileName = "열평형_보고서";
+
+      if (classValue !== "all") {
+        fileName += `_${classValue}반`;
+      }
+
+      if (groupValue !== "all") {
+        fileName += `_${groupValue}조`;
+      }
+
+      fileName += ".csv";
+
+      link.href = url;
+      link.download = fileName;
+      link.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    async function clearFirestoreData() {
+      const shouldDelete = confirm(
+        "Firestore에 저장된 전체 보고서를 삭제하시겠습니까?\n" +
+        "모든 기기에서 데이터가 삭제됩니다."
+      );
+
+      if (!shouldDelete) {
+        return;
+      }
+
+      try {
+        await window.clearFirestoreReports();
+        alert("전체 데이터가 초기화되었습니다.");
+      } catch (error) {
+        console.error("초기화 실패:", error);
+        alert("데이터 초기화에 실패했습니다.");
       }
     }
   </script>
