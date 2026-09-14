@@ -798,7 +798,7 @@
             학급 선택:
           </label>
 
-          <select id="filterClass">
+          <select id="filterClass" onchange="updateGroupFilter()">
             <option value="all">
               전체 학급
             </option>
@@ -808,7 +808,7 @@
             조 선택:
           </label>
 
-          <select id="filterGroup">
+          <select id="filterGroup" onchange="renderTeacherDashboard()">
             <option value="all">
               전체 조
             </option>
@@ -1432,7 +1432,7 @@
         classValue === "all"
           ? data
           : data.filter(
-              item => item.classNum === Number(classValue)
+              item => Number(item.classNum) === Number(classValue)
             );
 
       const groups = Array.from(
@@ -1480,28 +1480,28 @@
     function getFilteredReports() {
       const data = window.remoteReports || [];
 
-      const classValue =
-        document.getElementById("filterClass").value;
+      const classSelect = document.getElementById("filterClass");
+      const groupSelect = document.getElementById("filterGroup");
 
-      const groupValue =
-        document.getElementById("filterGroup").value;
+      const classValue = classSelect ? classSelect.value : "all";
+      const groupValue = groupSelect ? groupSelect.value : "all";
 
       return data
         .filter(item => {
           const classMatches =
             classValue === "all" ||
-            item.classNum === Number(classValue);
+            Number(item.classNum) === Number(classValue);
 
           const groupMatches =
             groupValue === "all" ||
-            item.groupNum === Number(groupValue);
+            Number(item.groupNum) === Number(groupValue);
 
           return classMatches && groupMatches;
         })
         .sort((a, b) => {
           return (
-            a.classNum - b.classNum ||
-            a.groupNum - b.groupNum
+            Number(a.classNum) - Number(b.classNum) ||
+            Number(a.groupNum) - Number(b.groupNum)
           );
         });
     }
