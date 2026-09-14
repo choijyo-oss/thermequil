@@ -1515,6 +1515,139 @@
         .replace(/'/g, "&#039;");
     }
 
+
+    function renderTemperatureBarChart(data) {
+      const canvas = document.getElementById("tBarChart");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      if (tBarChartInstance) {
+        tBarChartInstance.destroy();
+      }
+
+      const labels = data.map(item => `${item.classNum}반 ${item.groupNum}조`);
+      const eqTemps = data.map(item => item.eqTemp);
+      const midTemps = data.map(item => item.midTemp);
+
+      tBarChartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "열평형 온도(℃)",
+              data: eqTemps,
+              backgroundColor: "rgba(22, 163, 74, 0.7)",
+              borderColor: "#16a34a",
+              borderWidth: 1
+            },
+            {
+              label: "계산한 중간값(℃)",
+              data: midTemps,
+              backgroundColor: "rgba(147, 51, 234, 0.7)",
+              borderColor: "#9333ea",
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: "온도 (℃)"
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderTemperatureLineChart(data) {
+      const canvas = document.getElementById("tLineChart");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      if (tLineChartInstance) {
+        tLineChartInstance.destroy();
+      }
+
+      // 조별 색상 팔레트
+      const colorPalette = [
+        "#2563eb", "#dc2626", "#16a34a", "#d97706", "#9333ea",
+        "#0891b2", "#be123c", "#4f46e5", "#059669", "#c026d3"
+      ];
+
+      // 가장 긴 labels 찾기
+      let longestLabels = [];
+      data.forEach(item => {
+        if (item.labels && item.labels.length > longestLabels.length) {
+          longestLabels = item.labels;
+        }
+      });
+
+      const datasets = [];
+      data.forEach((item, index) => {
+        const color = colorPalette[index % colorPalette.length];
+        if (item.hotData && item.hotData.length > 0) {
+          datasets.push({
+            label: `${item.classNum}반 ${item.groupNum}조 (뜨거운 물)`,
+            data: item.hotData,
+            borderColor: color,
+            backgroundColor: color,
+            borderWidth: 2,
+            pointRadius: 0,
+            tension: 0.1
+          });
+        }
+        if (item.coldData && item.coldData.length > 0) {
+          datasets.push({
+            label: `${item.classNum}반 ${item.groupNum}조 (찬물)`,
+            data: item.coldData,
+            borderColor: color,
+            backgroundColor: color,
+            borderDash: [5, 5],
+            borderWidth: 1.5,
+            pointRadius: 0,
+            tension: 0.1
+          });
+        }
+      });
+
+      tLineChartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: longestLabels,
+          datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: "index",
+            intersect: false
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: "시간 (초)"
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: "온도 (℃)"
+              }
+            }
+          }
+        }
+      });
+    }
+
     function renderTeacherDashboard() {
       const filteredData = getFilteredReports();
 
